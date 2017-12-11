@@ -6,11 +6,12 @@ import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ItemDecoration;
 import android.util.AttributeSet;
+import org.lucasr.twowayview.R;
 
 /**
- * {@link android.support.v7.widget.RecyclerView.ItemDecoration} that applies a
+ * {@link ItemDecoration} that applies a
  * vertical and horizontal spacing between items of the target
- * {@link android.support.v7.widget.RecyclerView}.
+ * {@link RecyclerView}.
  */
 public class SpacingItemDecoration extends ItemDecoration {
     private final ItemSpacingOffsets mItemSpacing;
