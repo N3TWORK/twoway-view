@@ -21,11 +21,9 @@
 
 package org.lucasr.twowayview.widget;
 
-import android.util.Log;
+import org.lucasr.twowayview.widget.BaseLayoutManager.ItemEntry;
 
 import java.util.Arrays;
-
-import org.lucasr.twowayview.widget.BaseLayoutManager.ItemEntry;
 
 class ItemEntries {
     private static final int MIN_SIZE = 10;

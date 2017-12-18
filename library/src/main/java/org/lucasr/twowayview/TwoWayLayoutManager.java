@@ -24,12 +24,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.Adapter;
-import android.support.v7.widget.RecyclerView.LayoutManager;
-import android.support.v7.widget.RecyclerView.LayoutParams;
-import android.support.v7.widget.RecyclerView.Recycler;
-import android.support.v7.widget.RecyclerView.State;
-import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.support.v7.widget.RecyclerView.*;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup.MarginLayoutParams;
@@ -37,14 +32,13 @@ import android.view.ViewGroup.MarginLayoutParams;
 import java.util.List;
 
 public abstract class TwoWayLayoutManager extends LayoutManager {
-    private static final String LOGTAG = "TwoWayLayoutManager";
 
-    public static enum Orientation {
+    public enum Orientation {
         HORIZONTAL,
         VERTICAL
     }
 
-    public static enum Direction {
+    public enum Direction {
         START,
         END
     }
@@ -452,11 +446,6 @@ public abstract class TwoWayLayoutManager extends LayoutManager {
     }
 
     private void setupChild(View child, Direction direction) {
-        final ItemSelectionSupport itemSelection = ItemSelectionSupport.from(mRecyclerView);
-        if (itemSelection != null) {
-            final int position = getPosition(child);
-            itemSelection.setViewChecked(child, itemSelection.isItemChecked(position));
-        }
 
         measureChild(child, direction);
         layoutChild(child, direction);
@@ -697,29 +686,7 @@ public abstract class TwoWayLayoutManager extends LayoutManager {
     }
 
     @Override
-    public void onAdapterChanged(RecyclerView.Adapter oldAdapter, RecyclerView.Adapter newAdapter) {
-        super.onAdapterChanged(oldAdapter, newAdapter);
-
-        final ItemSelectionSupport itemSelectionSupport = ItemSelectionSupport.from(mRecyclerView);
-        if (oldAdapter != null && itemSelectionSupport != null) {
-            itemSelectionSupport.clearChoices();
-        }
-    }
-
-    @Override
     public void onLayoutChildren(Recycler recycler, State state) {
-        final ItemSelectionSupport itemSelection = ItemSelectionSupport.from(mRecyclerView);
-        if (itemSelection != null) {
-            final Bundle itemSelectionState = getPendingItemSelectionState();
-            if (itemSelectionState != null) {
-                itemSelection.onRestoreInstanceState(itemSelectionState);
-            }
-
-            if (state.didStructureChange()) {
-                itemSelection.onAdapterDataChanged();
-            }
-        }
-
         final int anchorItemPosition = getAnchorItemPosition(state);
         detachAndScrapAttachedViews(recycler);
         fillSpecific(anchorItemPosition, recycler, state);
@@ -771,7 +738,7 @@ public abstract class TwoWayLayoutManager extends LayoutManager {
     }
 
     @Override
-    public RecyclerView.LayoutParams generateDefaultLayoutParams() {
+    public LayoutParams generateDefaultLayoutParams() {
         if (mIsVertical) {
             return new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         } else {
@@ -907,13 +874,6 @@ public abstract class TwoWayLayoutManager extends LayoutManager {
         }
         state.anchorItemPosition = anchorItemPosition;
 
-        final ItemSelectionSupport itemSelection = ItemSelectionSupport.from(mRecyclerView);
-        if (itemSelection != null) {
-            state.itemSelectionState = itemSelection.onSaveInstanceState();
-        } else {
-            state.itemSelectionState = Bundle.EMPTY;
-        }
-
         return state;
     }
 
@@ -999,8 +959,8 @@ public abstract class TwoWayLayoutManager extends LayoutManager {
             out.writeParcelable(itemSelectionState, flags);
         }
 
-        public static final Parcelable.Creator<SavedState> CREATOR
-                = new Parcelable.Creator<SavedState>() {
+        public static final Creator<SavedState> CREATOR
+                = new Creator<SavedState>() {
             @Override
             public SavedState createFromParcel(Parcel in) {
                 return new SavedState(in);

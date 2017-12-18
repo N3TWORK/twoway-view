@@ -2,8 +2,6 @@ package org.lucasr.twowayview.widget;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-
 import org.lucasr.twowayview.TwoWayLayoutManager.Direction;
 import org.lucasr.twowayview.widget.Lanes.LaneInfo;
 
@@ -89,8 +87,7 @@ class ItemSpacingOffsets {
 
         // TODO: Figure out a robust way to compute this for layouts
         // that are dynamically placed and might span multiple lanes.
-        if (lm instanceof SpannableGridLayoutManager ||
-            lm instanceof StaggeredGridLayoutManager) {
+        if (lm instanceof SpannableGridLayoutManager) {
             return false;
         }
 

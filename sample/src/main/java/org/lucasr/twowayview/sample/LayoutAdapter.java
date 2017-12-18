@@ -22,11 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import org.lucasr.twowayview.TwoWayLayoutManager;
-import org.lucasr.twowayview.widget.TwoWayView;
 import org.lucasr.twowayview.widget.SpannableGridLayoutManager;
-import org.lucasr.twowayview.widget.StaggeredGridLayoutManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +31,7 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
     private static final int COUNT = 100;
 
     private final Context mContext;
-    private final TwoWayView mRecyclerView;
+    private final RecyclerView mRecyclerView;
     private final List<Integer> mItems;
     private final int mLayoutId;
     private int mCurrentItemId = 0;
@@ -49,7 +45,7 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
         }
     }
 
-    public LayoutAdapter(Context context, TwoWayView recyclerView, int layoutId) {
+    public LayoutAdapter(Context context, RecyclerView recyclerView, int layoutId) {
         mContext = context;
         mItems = new ArrayList<Integer>(COUNT);
         for (int i = 0; i < COUNT; i++) {
@@ -79,47 +75,16 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
 
     @Override
     public void onBindViewHolder(SimpleViewHolder holder, int position) {
+
         holder.title.setText(mItems.get(position).toString());
 
-        boolean isVertical = (mRecyclerView.getOrientation() == TwoWayLayoutManager.Orientation.VERTICAL);
+//        boolean isVertical = (mRecyclerView.getOrientation() == TwoWayLayoutManager.Orientation.VERTICAL);
+        boolean isVertical = true;
         final View itemView = holder.itemView;
 
         final int itemId = mItems.get(position);
 
-        if (mLayoutId == R.layout.layout_staggered_grid) {
-            final int dimenId;
-            if (itemId % 3 == 0) {
-                dimenId = R.dimen.staggered_child_medium;
-            } else if (itemId % 5 == 0) {
-                dimenId = R.dimen.staggered_child_large;
-            } else if (itemId % 7 == 0) {
-                dimenId = R.dimen.staggered_child_xlarge;
-            } else {
-                dimenId = R.dimen.staggered_child_small;
-            }
-
-            final int span;
-            if (itemId == 2) {
-                span = 2;
-            } else {
-                span = 1;
-            }
-
-            final int size = mContext.getResources().getDimensionPixelSize(dimenId);
-
-            final StaggeredGridLayoutManager.LayoutParams lp =
-                    (StaggeredGridLayoutManager.LayoutParams) itemView.getLayoutParams();
-
-            if (!isVertical) {
-                lp.span = span;
-                lp.width = size;
-                itemView.setLayoutParams(lp);
-            } else {
-                lp.span = span;
-                lp.height = size;
-                itemView.setLayoutParams(lp);
-            }
-        } else if (mLayoutId == R.layout.layout_spannable_grid) {
+        if (mLayoutId == R.layout.layout_spannable_grid) {
             final SpannableGridLayoutManager.LayoutParams lp =
                     (SpannableGridLayoutManager.LayoutParams) itemView.getLayoutParams();
 

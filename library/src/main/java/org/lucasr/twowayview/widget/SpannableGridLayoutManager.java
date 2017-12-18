@@ -19,7 +19,6 @@ package org.lucasr.twowayview.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Recycler;
 import android.support.v7.widget.RecyclerView.State;
@@ -27,16 +26,15 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
-
+import org.lucasr.twowayview.R;
 import org.lucasr.twowayview.widget.Lanes.LaneInfo;
 
 public class SpannableGridLayoutManager extends GridLayoutManager {
-    private static final String LOGTAG = "SpannableGridLayoutManager";
 
     private static final int DEFAULT_NUM_COLS = 3;
     private static final int DEFAULT_NUM_ROWS = 3;
 
-    protected static class SpannableItemEntry extends BaseLayoutManager.ItemEntry {
+    protected static class SpannableItemEntry extends ItemEntry {
         private final int colSpan;
         private final int rowSpan;
 
@@ -59,8 +57,8 @@ public class SpannableGridLayoutManager extends GridLayoutManager {
             out.writeInt(rowSpan);
         }
 
-        public static final Parcelable.Creator<SpannableItemEntry> CREATOR
-                = new Parcelable.Creator<SpannableItemEntry>() {
+        public static final Creator<SpannableItemEntry> CREATOR
+                = new Creator<SpannableItemEntry>() {
             @Override
             public SpannableItemEntry createFromParcel(Parcel in) {
                 return new SpannableItemEntry(in);
@@ -286,7 +284,7 @@ public class SpannableGridLayoutManager extends GridLayoutManager {
         return new LayoutParams(c, attrs);
     }
 
-    public static class LayoutParams extends TwoWayView.LayoutParams {
+    public static class LayoutParams extends RecyclerView.LayoutParams {
         private static final int DEFAULT_SPAN = 1;
 
         public int rowSpan;
