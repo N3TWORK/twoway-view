@@ -38,11 +38,16 @@ class ItemEntries {
             len *= 2;
         }
 
-        // We don't apply any constraints while restoring
-        // item entries.
-        if (!mRestoringItem && len > mAdapterSize) {
-            len = mAdapterSize;
-        }
+        /*
+         * Bellow code was commented as a part of fix for item insertion.
+         * Once we implemented DiffUtil in SpannableLayoutManager adapter this part would cause app to crash with ArrayIndexOutOfBoundsException
+         * The problem was that this constraint would run and set length of new mItemEntries to old adapter size
+         * FIXME Research to find the better way for ensuring the correct behaviour. Probably updating adapterSize sooner.
+         */
+        // We don't apply any constraints while restoring item entries.
+//        if (!mRestoringItem && len > mAdapterSize) {
+//            len = mAdapterSize;
+//        }
 
         return len;
     }
