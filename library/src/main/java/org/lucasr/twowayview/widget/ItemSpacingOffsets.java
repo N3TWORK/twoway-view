@@ -48,9 +48,13 @@ class ItemSpacingOffsets {
             previousPosition--;
         }
 
-        final int previousLaneSpan = lm.getLaneSpanForPosition(previousPosition);
-        if (previousLane == 0) {
-            return (lane == previousLane + previousLaneSpan);
+        try {
+            final int previousLaneSpan = lm.getLaneSpanForPosition(previousPosition);
+            if (previousLane == 0) {
+                return (lane == previousLane + previousLaneSpan);
+            }
+        } catch (IllegalStateException e) {
+            // Lane span for position not available
         }
 
         return false;
@@ -67,9 +71,13 @@ class ItemSpacingOffsets {
 
         int count = 0;
         for (int i = 0; i < itemPosition; i++) {
-            count += lm.getLaneSpanForPosition(i);
-            if (count >= laneCount) {
-                return false;
+            try {
+                count += lm.getLaneSpanForPosition(i);
+                if (count >= laneCount) {
+                    return false;
+                }
+            } catch (IllegalStateException e) {
+                // Ignore lane span
             }
         }
 
@@ -109,7 +117,13 @@ class ItemSpacingOffsets {
 
         lm.getLaneForPosition(mTempLaneInfo, itemPosition, Direction.END);
         final int lane = mTempLaneInfo.startLane;
-        final int laneSpan = lm.getLaneSpanForPosition(itemPosition);
+        int laneSpanSecure = 0;
+        try {
+            laneSpanSecure = lm.getLaneSpanForPosition(itemPosition);
+        } catch (IllegalStateException e) {
+            // Lane span for position not available
+        }
+        final int laneSpan = laneSpanSecure;
         final int laneCount = lm.getLanes().getCount();
         final int itemCount = parent.getAdapter().getItemCount();
 
