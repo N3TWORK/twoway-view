@@ -188,6 +188,9 @@ class Lanes {
     }
 
     public void popChildFrame(Rect outRect, int lane, int margin, Direction direction) {
+        if(lane == -1)
+            return;
+
         final Rect laneRect = mLanes[lane];
         if (mIsVertical) {
             if (direction == Direction.END) {
