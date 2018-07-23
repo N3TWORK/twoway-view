@@ -161,6 +161,9 @@ class Lanes {
     }
 
     public int pushChildFrame(Rect outRect, int lane, int margin, Direction direction) {
+        if(lane >= mLanes.length)
+            return 0;
+
         final int delta;
 
         final Rect laneRect = mLanes[lane];
