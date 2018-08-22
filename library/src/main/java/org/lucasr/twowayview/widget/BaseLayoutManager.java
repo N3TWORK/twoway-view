@@ -201,7 +201,7 @@ public abstract class BaseLayoutManager extends TwoWayLayoutManager {
     }
 
     void setItemEntryForPosition(int position, ItemEntry entry) {
-        if (mItemEntries != null) {
+        if (mItemEntries != null && position != -1) {
             mItemEntries.putItemEntry(position, entry);
         }
     }

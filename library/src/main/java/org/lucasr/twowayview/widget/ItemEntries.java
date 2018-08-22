@@ -78,9 +78,11 @@ class ItemEntries {
     }
 
     public void restoreItemEntry(int position, ItemEntry entry) {
-        mRestoringItem = true;
-        putItemEntry(position, entry);
-        mRestoringItem = false;
+        if (position != -1) {
+            mRestoringItem = true;
+            putItemEntry(position, entry);
+            mRestoringItem = false;
+        }
     }
 
     public int size() {
