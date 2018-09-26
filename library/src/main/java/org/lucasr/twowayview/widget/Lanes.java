@@ -191,7 +191,7 @@ class Lanes {
     }
 
     public void popChildFrame(Rect outRect, int lane, int margin, Direction direction) {
-        if(lane == -1)
+        if(lane == -1 || lane >= mLanes.length)
             return;
 
         final Rect laneRect = mLanes[lane];
